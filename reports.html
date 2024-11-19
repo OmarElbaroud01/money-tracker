@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divine Money Tracker - Reports</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/reports.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://ui-avatars.com/api/?name=MT&background=63679f&color=fff&format=png&size=128"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-dollar-sign fa-2x"></i>
+          <h1>Money Tracker</h1>
+        </div>
+
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-chart-line"></i>Dashboard</a>
+          </li>
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i>Transactions</a
+            >
+          </li>
+          <li>
+            <a href="accounts.html"><i class="fas fa-wallet"></i>Accounts</a>
+          </li>
+          <li class="active">
+            <a href="reports.html"><i class="fas fa-chart-bar"></i>Reports</a>
+          </li>
+          <li>
+            <a href="budget.html"><i class="fas fa-piggy-bank"></i>Budget</a>
+          </li>
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+          </li>
+        </ul>
+
+        <div class="user-section">
+          <img
+            src="https://ui-avatars.com/api/?name=User&background=random"
+            alt="User Avatar"
+            class="user-avatar"
+            id="userAvatar"
+          />
+          <div class="user-info">
+            <span id="userName">User</span>
+            <button id="signOutBtn" class="sign-out-btn">
+              <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-content">
+            <h1>Reports</h1>
+            <p>Analyze your financial data</p>
+          </div>
+        </div>
+
+        <!-- Report Controls -->
+        <div class="report-controls">
+          <div class="report-type-selector">
+            <select id="reportType">
+              <option value="expense-income">Expense & Income</option>
+              <option value="category">Category Analysis</option>
+              <option value="trends">Spending Trends</option>
+              <option value="accounts">Account Balance</option>
+            </select>
+          </div>
+
+          <div class="date-controls">
+            <button id="prevPeriod" class="period-btn">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="period-selector">
+              <select id="monthSelect" class="month-select"></select>
+              <span id="currentPeriod"></span>
+            </div>
+            <button id="nextPeriod" class="period-btn">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Report Summary -->
+        <div class="report-summary">
+          <div class="summary-card income">
+            <h3>TOTAL INCOME</h3>
+            <div class="amount" id="totalIncome">0 USD</div>
+          </div>
+          <div class="summary-card expense">
+            <h3>TOTAL EXPENSE</h3>
+            <div class="amount" id="totalExpense">0 USD</div>
+          </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container">
+          <canvas id="reportChart"></canvas>
+        </div>
+
+        <!-- Filters -->
+        <div class="report-filters">
+          <div class="filter-group">
+            <label>Accounts</label>
+            <div class="multi-select" id="accountsFilter">
+              <input type="text" placeholder="Specify accounts" readonly />
+              <div class="dropdown-content">
+                <!-- Account options will be populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Tags</label>
+            <div class="multi-select" id="tagsFilter">
+              <input type="text" placeholder="Exclude tags" readonly />
+              <div class="dropdown-content">
+                <!-- Tag options will be populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/reports.js"></script>
+  </body>
+</html> 

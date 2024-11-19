@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Divine Money Tracker</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://ui-avatars.com/api/?name=MT&background=63679f&color=fff&format=png&size=128"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-dollar-sign fa-2x"></i>
+
+          <h1>Dashboard</h1>
+        </div>
+
+        <ul class="nav-links">
+          <li class="active">
+            <a href="index.html"><i class="fas fa-chart-line"></i>Dashboard</a>
+          </li>
+
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i>Transactions</a
+            >
+          </li>
+
+          <li>
+            <a href="accounts.html"><i class="fas fa-wallet"></i>Accounts</a>
+          </li>
+
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i>Reports</a>
+          </li>
+
+          <li>
+            <a href="budget.html"><i class="fas fa-piggy-bank"></i>Budget</a>
+          </li>
+
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Main Content -->
+
+      <main class="main-content">
+        <!-- Welcome Banner -->
+
+        <div class="welcome-banner">
+          <div class="welcome-message">
+            <img
+              src="https://ui-avatars.com/api/?name=User&background=random"
+              alt="User Avatar"
+              class="user-avatar"
+            />
+
+            <div class="message-content">
+              <h2>Welcome back, <span id="userName">User</span>!</h2>
+
+              <p>Track your finances with divine precision</p>
+
+              <button id="signOutBtn" class="sign-out-btn">
+                <i class="fas fa-sign-out-alt"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Net Worth Section -->
+
+        <section class="net-worth-section">
+          <div class="section-header">
+            <div class="net-worth-header">
+              <h3>NET WORTH</h3>
+              <button id="setNetWorthBtn" class="set-worth-btn">
+                <i class="fas fa-edit"></i> Set Net Worth
+              </button>
+            </div>
+            <span class="amount">0.00 MAD</span>
+          </div>
+
+          <div class="accounts-list">
+            <div class="account-group">
+              <h4>Cash</h4>
+
+              <div class="account-item">
+                <span>Omar's wallet</span>
+
+                <div class="multi-currency">
+                  <span>428.82 MAD</span>
+                </div>
+              </div>
+
+              <!-- Add other account items -->
+            </div>
+          </div>
+        </section>
+
+        <!-- New Transaction Section -->
+
+        <section class="new-transaction-section">
+          <div class="section-header">
+            <h3>NEW TRANSACTION</h3>
+          </div>
+
+          <div class="transaction-tabs">
+            <button class="tab active">Expense</button>
+
+            <button class="tab">Transfer</button>
+
+            <button class="tab">Income</button>
+          </div>
+
+          <form class="transaction-form">
+            <div class="form-group">
+              <label for="amount">Amount</label>
+              <input type="number" id="amount" required step="0.01" min="0" />
+            </div>
+
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category" required>
+                <option value="">Select category</option>
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="utilities">Utilities</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="salary">Salary</option>
+                <option value="investment">Investment</option>
+                <option value="savings">Savings</option>
+                <option value="rent">Rent</option>
+                <option value="gifts">Gifts</option>
+                <option value="freelance">Freelance</option>
+                <option value="courses">Courses</option>
+                <option value="withdrawal">Withdrawal</option>
+                <option value="bills">Bills</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input
+                type="date"
+                id="date"
+                required
+                value="${new Date().toISOString().split('T')[0]}"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="note">Note</label>
+              <input type="text" id="note" placeholder="Add note" />
+            </div>
+
+            <button type="submit" class="add-expense-btn">Add Expense</button>
+          </form>
+        </section>
+
+        <!-- Recent Transactions Section -->
+
+        <section class="recent-transactions">
+          <div class="section-header">
+            <h3>RECENT TRANSACTIONS</h3>
+          </div>
+
+          <div class="transactions-list">
+            <!-- Transaction items will be dynamically added here -->
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Add this modal at the bottom of body, before scripts -->
+    <div id="netWorthModal" class="modal">
+      <div class="modal-content">
+        <h2>Set Your Net Worth</h2>
+        <form id="netWorthForm">
+          <div class="form-group">
+            <label for="netWorthAmount">Initial Net Worth (MAD)</label>
+            <input
+              type="number"
+              id="netWorthAmount"
+              required
+              step="0.01"
+              min="0"
+              placeholder="Enter your current net worth"
+            />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelNetWorth">
+              Cancel
+            </button>
+            <button type="submit" class="confirm-btn">Confirm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

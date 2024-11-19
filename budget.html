@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divine Money Tracker - Budget</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/budget.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://ui-avatars.com/api/?name=MT&background=63679f&color=fff&format=png&size=128"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-dollar-sign fa-2x"></i>
+          <h1>Money Tracker</h1>
+        </div>
+
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-chart-line"></i>Dashboard</a>
+          </li>
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i>Transactions</a
+            >
+          </li>
+          <li>
+            <a href="accounts.html"><i class="fas fa-wallet"></i>Accounts</a>
+          </li>
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i>Reports</a>
+          </li>
+          <li class="active">
+            <a href="budget.html"><i class="fas fa-piggy-bank"></i>Budget</a>
+          </li>
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+          </li>
+        </ul>
+
+        <div class="user-section">
+          <img
+            src="https://ui-avatars.com/api/?name=User&background=random"
+            alt="User Avatar"
+            class="user-avatar"
+            id="userAvatar"
+          />
+          <div class="user-info">
+            <span id="userName">User</span>
+            <button id="signOutBtn" class="sign-out-btn">
+              <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-content">
+            <h1>Budget</h1>
+            <p>Manage your monthly budgets</p>
+          </div>
+          <button class="new-budget-btn" id="newBudgetBtn">
+            <i class="fas fa-plus"></i> New Budget
+          </button>
+        </div>
+
+        <!-- Budget Overview -->
+        <div class="budget-overview">
+          <div class="overview-card total-budget">
+            <h3 class="total-budget">Total Budget</h3>
+            <span class="amount" id="totalBudget">0.00 MAD</span>
+          </div>
+          <div class="overview-card spent">
+            <h3>Spent</h3>
+            <span class="amount" id="totalSpent">0.00 MAD</span>
+          </div>
+          <div class="overview-card remaining">
+            <h3>Remaining</h3>
+            <span class="amount" id="totalRemaining">0.00 MAD</span>
+          </div>
+        </div>
+
+        <!-- Budget Progress -->
+        <div class="budget-progress">
+          <div class="progress-header">
+            <h2>Budget Progress</h2>
+            <div class="period-selector">
+              <button id="prevMonth" class="period-btn">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span id="currentPeriod">March 2024</span>
+              <button id="nextMonth" class="period-btn">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="budget-categories" id="budgetCategories">
+            <!-- Budget categories will be dynamically added here -->
+          </div>
+        </div>
+
+        <!-- Budget Distribution Chart -->
+        <div class="budget-chart-container">
+          <canvas id="budgetChart"></canvas>
+        </div>
+      </main>
+    </div>
+
+    <!-- New Budget Modal -->
+    <div id="budgetModal" class="modal">
+      <div class="modal-content">
+        <h2 id="modalTitle">New Budget</h2>
+        <form id="budgetForm">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" required>
+              <option value="">Select Category</option>
+              <!-- Categories will be dynamically added -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" required min="0" step="0.01" />
+          </div>
+          <div class="form-group">
+            <label for="period">Period</label>
+            <input type="month" id="period" required />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelBudget">
+              Cancel
+            </button>
+            <button type="submit" class="confirm-btn">Save Budget</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/budget.js"></script>
+  </body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Divine Money Tracker - Accounts</title>
+
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <link rel="stylesheet" href="css/accounts.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://ui-avatars.com/api/?name=MT&background=63679f&color=fff&format=png&size=128"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-dollar-sign fa-2x"></i>
+
+          <h1>Money Tracker</h1>
+        </div>
+
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-chart-line"></i>Dashboard</a>
+          </li>
+
+          <li>
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i>Transactions</a
+            >
+          </li>
+
+          <li class="active">
+            <a href="accounts.html"><i class="fas fa-wallet"></i>Accounts</a>
+          </li>
+
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i>Reports</a>
+          </li>
+
+          <li>
+            <a href="budget.html"><i class="fas fa-piggy-bank"></i>Budget</a>
+          </li>
+
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+          </li>
+        </ul>
+
+        <div class="user-section">
+          <img
+            src="https://ui-avatars.com/api/?name=User&background=random"
+            alt="User Avatar"
+            class="user-avatar"
+            id="userAvatar"
+          />
+
+          <div class="user-info">
+            <span id="userName">User</span>
+
+            <button id="signOutBtn" class="sign-out-btn">
+              <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <!-- Page Header -->
+
+        <div class="page-header">
+          <div class="header-content">
+            <h1>Accounts</h1>
+
+            <p>Manage your financial accounts</p>
+          </div>
+
+          <button class="new-account-btn" id="newAccountBtn">
+            <i class="fas fa-plus"></i> New Account
+          </button>
+        </div>
+
+        <!-- Accounts Overview -->
+
+        <div class="accounts-overview">
+          <div class="total-balance">
+            <h3>Total Balance</h3>
+
+            <span class="amount" id="totalBalance">0.00 MAD</span>
+          </div>
+        </div>
+
+        <!-- Reconciliation Alert -->
+
+        <div
+          class="reconciliation-alert"
+          id="reconciliationAlert"
+          style="display: none"
+        >
+          <div class="alert-content">
+            <i class="fas fa-exclamation-triangle"></i>
+
+            <div class="alert-message">
+              <h4>Balance Discrepancy Detected</h4>
+
+              <p>
+                There is a difference of
+                <span id="balanceDifference">0.00 MAD</span> between your
+                accounts and net worth.
+              </p>
+            </div>
+
+            <button id="reconcileButton" class="reconcile-btn">
+              <i class="fas fa-sync-alt"></i> Reconcile
+            </button>
+          </div>
+        </div>
+
+        <!-- Accounts List -->
+
+        <div class="accounts-container">
+          <!-- Cash Accounts -->
+
+          <section class="account-group" id="cashAccounts">
+            <div class="group-header">
+              <h3><i class="fas fa-money-bill-wave"></i> Cash</h3>
+
+              <span class="group-total" id="cashTotal">0.00 MAD</span>
+            </div>
+
+            <div class="accounts-list" id="cashAccountsList">
+              <!-- Accounts will be dynamically added here -->
+            </div>
+          </section>
+
+          <!-- Bank Accounts -->
+
+          <section class="account-group" id="bankAccounts">
+            <div class="group-header">
+              <h3><i class="fas fa-university"></i> Bank & Savings</h3>
+
+              <span class="group-total" id="bankTotal">0.00 MAD</span>
+            </div>
+
+            <div class="accounts-list" id="bankAccountsList">
+              <!-- Accounts will be dynamically added here -->
+            </div>
+          </section>
+
+          <!-- Credit Cards -->
+
+          <section class="account-group" id="creditAccounts">
+            <div class="group-header">
+              <h3><i class="fas fa-credit-card"></i> Credit Cards</h3>
+
+              <span class="group-total" id="creditTotal">0.00 MAD</span>
+            </div>
+
+            <div class="accounts-list" id="creditAccountsList">
+              <!-- Accounts will be dynamically added here -->
+            </div>
+          </section>
+
+          <!-- Assets -->
+
+          <section class="account-group" id="assetAccounts">
+            <div class="group-header">
+              <h3><i class="fas fa-gem"></i> Assets</h3>
+
+              <span class="group-total" id="assetTotal">0.00 MAD</span>
+            </div>
+
+            <div class="accounts-list" id="assetAccountsList">
+              <!-- Accounts will be dynamically added here -->
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- New Account Modal -->
+
+    <div id="accountModal" class="modal">
+      <div class="modal-content">
+        <h2 id="modalTitle">New Account</h2>
+
+        <form id="accountForm">
+          <div class="form-group">
+            <label for="accountName">Account Name</label>
+
+            <input
+              type="text"
+              id="accountName"
+              required
+              placeholder="Enter account name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="accountType">Account Type</label>
+
+            <select id="accountType" required>
+              <option value="cash">Cash</option>
+
+              <option value="bank">Bank Account</option>
+
+              <option value="savings">Savings Account</option>
+
+              <option value="credit">Credit Card</option>
+
+              <option value="asset">Asset</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="initialBalance">Initial Balance</label>
+
+            <input
+              type="number"
+              id="initialBalance"
+              required
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="currency">Currency</label>
+
+            <select id="currency" required>
+              <option value="MAD">MAD - Moroccan Dirham</option>
+
+              <option value="USD">USD - US Dollar</option>
+
+              <option value="EUR">EUR - Euro</option>
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" id="cancelAccount">
+              Cancel
+            </button>
+
+            <button type="submit" class="confirm-btn">Save Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+
+    <script type="module" src="js/accounts.js"></script>
+  </body>
+</html>

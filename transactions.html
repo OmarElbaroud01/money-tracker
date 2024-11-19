@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Divine Money Tracker - Transactions</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/transactions.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://ui-avatars.com/api/?name=MT&background=63679f&color=fff&format=png&size=128"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar">
+        <div class="logo">
+          <i class="fas fa-dollar-sign fa-2x"></i>
+          <h1>Money Tracker</h1>
+        </div>
+
+        <ul class="nav-links">
+          <li>
+            <a href="index.html"><i class="fas fa-chart-line"></i>Dashboard</a>
+          </li>
+          <li class="active">
+            <a href="transactions.html"
+              ><i class="fas fa-exchange-alt"></i>Transactions</a
+            >
+          </li>
+          <li>
+            <a href="accounts.html"><i class="fas fa-wallet"></i>Accounts</a>
+          </li>
+          <li>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i>Reports</a>
+          </li>
+          <li>
+            <a href="budget.html"><i class="fas fa-piggy-bank"></i>Budget</a>
+          </li>
+          <li>
+            <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
+          </li>
+        </ul>
+
+        <div class="user-section">
+          <img
+            src="https://ui-avatars.com/api/?name=User&background=random"
+            alt="User Avatar"
+            class="user-avatar"
+            id="userAvatar"
+          />
+          <div class="user-info">
+            <span id="userName">User</span>
+            <button id="signOutBtn" class="sign-out-btn">
+              <i class="fas fa-sign-out-alt"></i> Sign Out
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div class="header-content">
+            <h1>Transactions</h1>
+            <p>Manage and track your financial movements</p>
+          </div>
+          <button
+            class="new-transaction-btn"
+            onclick="window.location.href='index.html#new-transaction'"
+          >
+            <i class="fas fa-plus"></i> New Transaction
+          </button>
+        </div>
+
+        <!-- Transaction Filters -->
+        <div class="transactions-header">
+          <div class="transaction-filters">
+            <div class="date-range">
+              <input type="date" id="startDate" class="date-input" />
+              <span>to</span>
+              <input type="date" id="endDate" class="date-input" />
+            </div>
+            <select id="typeFilter" class="filter-select">
+              <option value="">All Types</option>
+              <option value="expense">Expenses</option>
+              <option value="income">Income</option>
+              <option value="transfer">Transfers</option>
+            </select>
+            <select id="categoryFilter" class="filter-select">
+              <option value="">All Categories</option>
+            </select>
+            <button id="applyFilters" class="filter-btn">
+              <i class="fas fa-filter"></i> Apply Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Transaction Statistics -->
+        <section class="transaction-stats">
+          <div class="stat-card income">
+            <h3>Total Income</h3>
+            <span class="amount" id="totalIncome">0.00 MAD</span>
+            <div class="stat-icon">
+              <i class="fas fa-arrow-up"></i>
+            </div>
+          </div>
+          <div class="stat-card expenses">
+            <h3>Total Expenses</h3>
+            <span class="amount" id="totalExpenses">0.00 MAD</span>
+            <div class="stat-icon">
+              <i class="fas fa-arrow-down"></i>
+            </div>
+          </div>
+          <div class="stat-card balance">
+            <h3>Net Balance</h3>
+            <span class="amount" id="netBalance">0.00 MAD</span>
+            <div class="stat-icon">
+              <i class="fas fa-balance-scale"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- Transactions Table -->
+        <section class="transactions-table-container">
+          <div class="table-wrapper">
+            <table class="transactions-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Note</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transactionsTableBody">
+                <!-- Transactions will be populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+          <div class="table-pagination">
+            <button id="prevPage" class="pagination-btn" disabled>
+              <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button id="nextPage" class="pagination-btn" disabled>
+              Next <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/transactions-page.js"></script>
+  </body>
+</html>

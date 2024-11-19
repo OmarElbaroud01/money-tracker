@@ -1,0 +1,21 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+
+        ".write": "$uid === auth.uid",
+
+        "transactions": {
+          ".indexOn": ["date", "category", "amount", "type"]
+        },
+
+        "profile": {
+          ".read": "$uid === auth.uid",
+
+          ".write": "$uid === auth.uid"
+        }
+      }
+    }
+  }
+}
